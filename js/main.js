@@ -1,15 +1,19 @@
 // const url = '../docs/pdf.pf';
 const url = '../docs/pdf.pdf';
 const gotoPageNum = document.getElementById('goto-page-num');
+const currentScale = document.getElementById('current-scale');
+const scaleIncrBtn = document.getElementById('scale-incr');
+const scaleDecrBtn = document.getElementById('scale-decr');
+
 pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
 
 let pdfDoc = null,
     pageNum = 1,
     pageIsRendering = false,
-    pageNumIsPending = null;
+    pageNumIsPending = null,
+    scale = 1.0;
 
-const scale = 1.0,
-    canvas = document.querySelector('#pdf-render'),
+const canvas = document.querySelector('#pdf-render'),
     ctx = canvas.getContext('2d');
 
 // Render the page 
@@ -71,6 +75,7 @@ pdfjsLib.getDocument(url).promise.then(function(pdfDoc_){
     document.querySelector('#page-count').textContent = pdfDoc.numPages;
     gotoPageNum.min = 1;
     gotoPageNum.max = pdfDoc.numPages;
+    currentScale.textContent = 100;
     renderPage(pageNum);
 }).catch(err=>{
     //display error
@@ -89,3 +94,19 @@ const goto = (e)=>{
     }
     return false;
 }
+
+scaleIncrBtn.addEventListener('click', ()=>{
+    if(scale<=1.95){
+        scale = scale + 0.05;
+        renderPage(pageNum)
+        currentScale.textContent = parseInt(scale*100);
+    }
+})
+scaleDecrBtn.addEventListener('click', ()=>{
+    if(scale*100<50){
+        return;
+    }
+    scale = scale - 0.05;
+    renderPage(pageNum)
+    currentScale.textContent = parseInt(scale*100);
+})

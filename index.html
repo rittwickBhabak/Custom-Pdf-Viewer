@@ -23,13 +23,21 @@
         <span class="page-info">
             Page <span id="page-num"></span> of <span id="page-count"></span>
         </span>
-        <form onsubmit="return goto(event)" id="goto-div" style="float:right">
+        <form onsubmit="return goto(event)" id="goto-div">
             <label for="goto-page-num">Go to page: </label>
             <!-- <input type="number" id="goto-page-num" min="1" max="111"> -->
             <input type="number" id="goto-page-num">
             <button id="go">Go</button>
         </form>
-
+        <div class="scale-ctrl">
+            <button class="scale-ctrl-btn" id="scale-incr">
+                <i class="fas fa-plus"></i>
+            </button>
+            <span id="current-scale"></span>%
+            <button class="scale-ctrl-btn" id="scale-decr">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
 
     </div>
         <canvas id="pdf-render"></canvas>
